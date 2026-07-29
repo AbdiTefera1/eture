@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+// ---------------- Destinations ----------------
+model Destination {
+  id              String             @id @default(cuid())
+  slug            String             @unique
+  name            String
+  region          String
+  tag             String
+  summary         String
+  description     String
+  highlights      String[]           @default([])
+  bestTimeToVisit String?
+  duration        String?
+  difficulty      String?
+  activityTags    String[]           @default([])
+  avgTempC        Int?
+  latitude        Float?
+  longitude       Float?
+  icon            String             @default("compass")
+  colorway        String             @default("art-1")
+  order           Int                @default(0)
+  published       Boolean            @default(true)
+  upvotes         Int                @default(0)
+  images          DestinationImage[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model DestinationImage {
+  id            String      @id @default(cuid())
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  url           String
+  alt           String      @default("")
+  order         Int         @default(0)
+}
+
+// ---------------- Hotels ----------------
+model Hotel {
+  id                    String       @id @default(cuid())
+  name                  String
+  city                  String
+  country               String       @default("Ethiopia")
+  address               String
+  latitude              Float?
+  longitude             Float?
+  distanceFromAirportKm Float?
+  tier                  String       // budget | mid | lux
+  pricePerNight         Float
+  currency              String       @default("USD")
+  mealPlan              String       @default("room_only") // room_only | breakfast | half_board | full_board
+  extraFoodInfo         String?
+  amenities             String[]     @default([])
+  rating                Float        @default(0)
+  website               String?
+  note                  String
+  order                 Int          @default(0)
+  published             Boolean      @default(true)
+  upvotes               Int          @default(0)
+  images                HotelImage[]
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+}
+
+model HotelImage {
+  id      String @id @default(cuid())
+  hotelId String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  url     String
+  alt     String @default("")
+  order   Int    @default(0)
+}
+
+// ---------------- Shopping ----------------
+model ShopPlace {
+  id             String      @id @default(cuid())
+  name           String
+  category       String
+  address        String
+  city           String      @default("Addis Ababa")
+  itemsAvailable String[]    @default([])
+  priceRange     String      @default("$$")
+  openingHours   String?
+  description    String
+  order          Int         @default(0)
+  published      Boolean     @default(true)
+  upvotes        Int         @default(0)
+  images         ShopImage[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model ShopImage {
+  id          String    @id @default(cuid())
+  shopPlaceId String
+  shopPlace   ShopPlace @relation(fields: [shopPlaceId], references: [id], onDelete: Cascade)
+  url         String
+  alt         String    @default("")
+  order       Int       @default(0)
+}
+
+// ---------------- Gallery ----------------
+model GalleryImage {
+  id        String   @id @default(cuid())
+  name      String
+  caption   String
+  imageUrl  String
+  category  String   @default("general")
+  tall      Boolean  @default(false)
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  upvotes   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------------- Connect board ----------------
+model ConnectPost {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  city      String
+  message   String
+  contact   String?
+  approved  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
