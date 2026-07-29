@@ -6,7 +6,38 @@ import { Locale } from "@/lib/i18n";
 import { activityLabel } from "@/lib/activityTags";
 import UpvoteButton from "@/components/UpvoteButton";
 
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: { locale: Locale; slug: string } }): Promise<Metadata> {
+  const destination = await prisma.destination.findUnique({
+    where: { slug: params.slug },
+    include: { images: { orderBy: { order: "asc" } } },
+  });
+
+  if (!destination) {
+    return { title: "Not Found" };
+  }
+
+  const coverImage = destination.images[0]?.url || "/og-image.jpg";
+
+  return {
+    title: destination.name,
+    description: destination.summary,
+    openGraph: {
+      title: `${destination.name} | Selam Ethiopia`,
+      description: destination.summary,
+      images: [coverImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${destination.name} | Selam Ethiopia`,
+      description: destination.summary,
+      images: [coverImage],
+    },
+  };
+}
 
 export default async function DestinationDetailPage({ params }: { params: { locale: Locale; slug: string } }) {
   const destination = await prisma.destination.findUnique({
