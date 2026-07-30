@@ -20,7 +20,11 @@ function ShareButton({ url }: { url: string }) {
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    const fullUrl = window.location.origin + url;
+    // If the URL is already absolute (external site), share it directly.
+    // If it's a local path (e.g. /uploads/photo.jpg), prepend the site origin.
+    const fullUrl = url.startsWith("http://") || url.startsWith("https://")
+      ? url
+      : window.location.origin + url;
     navigator.clipboard.writeText(fullUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

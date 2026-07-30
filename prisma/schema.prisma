@@ -141,3 +141,16 @@ model ConnectPost {
   approved  Boolean  @default(true)
   createdAt DateTime @default(now())
 }
+
+// ---------------- Visitor Analytics ----------------
+model PageVisit {
+  id        String   @id @default(cuid())
+  page      String   // e.g. "/en/destinations"
+  referrer  String?
+  country   String?
+  date      DateTime @default(now())
+
+  @@index([page])
+  @@index([date])
+}
+

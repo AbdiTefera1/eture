@@ -3,6 +3,7 @@ import { LOCALES, isValidLocale, isRTL, Locale } from "@/lib/i18n";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import VisitTracker from "@/components/VisitTracker";
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -22,6 +23,7 @@ export default function LocaleLayout({
   return (
     <div dir={dir} lang={locale}>
       <CurrencyProvider>
+        <VisitTracker />
         <Nav locale={locale} />
         {children}
         <Footer locale={locale} />
@@ -29,3 +31,4 @@ export default function LocaleLayout({
     </div>
   );
 }
+

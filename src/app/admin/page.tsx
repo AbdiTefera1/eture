@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import AnalyticsWidget from "@/components/AnalyticsWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,10 @@ export default async function AdminOverview() {
           </Link>
         ))}
       </div>
+
+      {/* Visitor analytics — fetched client-side, only visible to admins */}
+      <AnalyticsWidget />
     </div>
   );
 }
+
