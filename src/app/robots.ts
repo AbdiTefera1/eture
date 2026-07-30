@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    sitemap: "https://selamethiopia.com/sitemap.xml",
+    sitemap: "https://eture.vercel.app/sitemap.xml",
   };
 }

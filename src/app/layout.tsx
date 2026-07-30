@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://selamethiopia.com"),
+  metadataBase: new URL("https://eture.vercel.app"),
   title: {
     default: "Selam Ethiopia | The Ultimate Travel & Culture Guide",
     template: "%s | Selam Ethiopia",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://selamethiopia.com",
+    url: "https://eture.vercel.app",
     title: "Selam Ethiopia | The Ultimate Travel & Culture Guide",
     description:
       "Discover the beauty of Ethiopia. Explore top destinations, find the best hotels, shop authentic goods, and connect with locals.",

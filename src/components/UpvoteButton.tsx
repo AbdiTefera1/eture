@@ -14,22 +14,19 @@ type UpvoteButtonProps = {
 export default function UpvoteButton({ type, id, initialCount, className = "", style = {} }: UpvoteButtonProps) {
   const [count, setCount] = useState(initialCount);
   const [voted, setVoted] = useState(false);
-  const [loading, setLoading] = useState(true); // wait for client-side check
 
   useEffect(() => {
-    // Check localStorage on mount
     const key = `upvoted_${type}_${id}`;
     if (localStorage.getItem(key)) {
       setVoted(true);
     }
-    setLoading(false);
   }, [type, id]);
 
   const handleVote = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (voted || loading) return;
+    if (voted) return;
 
     // Optimistic UI
     setVoted(true);
@@ -78,7 +75,7 @@ export default function UpvoteButton({ type, id, initialCount, className = "", s
         ...style
       }}
       title={voted ? "You liked this" : "Like this"}
-      disabled={voted || loading}
+      disabled={voted}
     >
       <span 
         style={{ 

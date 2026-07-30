@@ -39,30 +39,38 @@ export default function DestinationExplorer({ destinations, locale }: { destinat
         {filtered.map((d, i) => {
           const cover = d.images[0]?.url;
           return (
-            <Link key={d.id} href={`/${locale}/destinations/${d.slug}`} className={`dest-feature-row ${i % 2 === 1 ? "reverse" : ""}`}>
-              <div className={`dest-feature-image ${d.colorway}`} style={cover ? { backgroundImage: `url(${cover})` } : undefined}>
-                {!cover && <span className="dest-feature-noimg">{d.name}</span>}
-                {d.avgTempC !== null && d.avgTempC !== undefined && <span className="temp-badge">{d.avgTempC}°C avg</span>}
-              </div>
-              <div className="dest-feature-text">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                  <span className="card-tag" style={{ margin: 0 }}>{d.tag}</span>
-                  <UpvoteButton type="destination" id={d.id} initialCount={d.upvotes} />
+            <div key={d.id} style={{ position: "relative" }}>
+              <Link href={`/${locale}/destinations/${d.slug}`} className={`dest-feature-row ${i % 2 === 1 ? "reverse" : ""}`}>
+                <div className={`dest-feature-image ${d.colorway}`} style={cover ? { backgroundImage: `url(${cover})` } : undefined}>
+                  {!cover && <span className="dest-feature-noimg">{d.name}</span>}
+                  {d.avgTempC !== null && d.avgTempC !== undefined && <span className="temp-badge">{d.avgTempC}°C avg</span>}
                 </div>
-                <h3 style={{ marginTop: 0 }}>{d.name}</h3>
-                <p>{d.summary || d.description}</p>
-                {d.highlights?.length > 0 && (
-                  <ul className="dest-feature-highlights">
-                    {d.highlights.slice(0, 3).map((h) => <li key={h}>{h}</li>)}
-                  </ul>
-                )}
-                <span className="dest-feature-link">{t(locale, "common.readMore")} →</span>
+                <div className="dest-feature-text">
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                    <span className="card-tag" style={{ margin: 0 }}>{d.tag}</span>
+                    {/* spacer so the tag doesn't overlap the external upvote btn */}
+                    <span style={{ width: 80 }} />
+                  </div>
+                  <h3 style={{ marginTop: 0 }}>{d.name}</h3>
+                  <p>{d.summary || d.description}</p>
+                  {d.highlights?.length > 0 && (
+                    <ul className="dest-feature-highlights">
+                      {d.highlights.slice(0, 3).map((h) => <li key={h}>{h}</li>)}
+                    </ul>
+                  )}
+                  <span className="dest-feature-link">{t(locale, "common.readMore")} →</span>
+                </div>
+              </Link>
+              {/* UpvoteButton lives OUTSIDE the Link so clicks don't navigate */}
+              <div style={{ position: "absolute", top: 16, right: 16, zIndex: 10 }}>
+                <UpvoteButton type="destination" id={d.id} initialCount={d.upvotes} />
               </div>
-            </Link>
+            </div>
           );
         })}
         {filtered.length === 0 && <div className="empty-state">No destinations match that filter yet.</div>}
       </div>
+
     </div>
   );
 }
