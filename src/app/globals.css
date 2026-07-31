@@ -27,33 +27,52 @@ button { font-family: inherit; cursor: pointer; }
   background-size: 32px 32px;
 }
 
-header.site-header { position: sticky; top: 0; z-index: 50; background: var(--basalt); }
+header.site-header { position: sticky; top: 0; z-index: 200; background: var(--basalt); }
 .nav-wrap { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; position: relative; }
-.brand { color: var(--parchment); display: flex; flex-direction: column; line-height: 1; z-index: 51; }
+.brand { color: var(--parchment); display: flex; flex-direction: column; line-height: 1; position: relative; z-index: 201; }
 .brand .am { font-size: 13px; color: var(--ochre); font-family: 'Fraunces', serif; font-style: italic; margin-bottom: 2px; }
 .brand .en { font-size: 22px; font-family: 'Fraunces', serif; font-weight: 700; }
 
-.nav-menu { display: flex; align-items: center; gap: 16px; }
+/* Desktop nav container */
+.nav-desktop { display: flex; align-items: center; gap: 16px; }
 nav ul { list-style: none; display: flex; gap: 6px; margin: 0; padding: 0; flex-wrap: wrap; }
 nav a { color: #cdbfa0; padding: 9px 14px; border-radius: 3px; font-size: 14.5px; font-weight: 500; display: block; }
 nav a:hover, nav a.active { background: rgba(237,227,206,0.1); color: var(--parchment); }
 
+/* Hamburger button */
 .mobile-menu-btn {
   display: none; background: transparent; border: none; color: var(--parchment);
-  padding: 8px; cursor: pointer; z-index: 51;
+  padding: 8px; cursor: pointer; position: relative; z-index: 201;
 }
+
+/* Mobile overlay — direct child of header, NOT nav-wrap */
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--basalt);
+  z-index: 199;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.nav-mobile-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav-mobile-overlay nav ul { flex-direction: column; align-items: center; gap: 4px; }
+.nav-mobile-overlay nav a { font-size: 24px; font-weight: 600; color: var(--parchment); padding: 14px 32px; font-family: 'Fraunces', serif; }
+.nav-mobile-overlay nav a:hover { background: rgba(237,227,206,0.08); }
+.nav-mobile-overlay .nav-switchers { display: flex; flex-direction: row; gap: 12px; margin-top: 24px; }
 
 @media (max-width: 860px) {
   .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
-  .nav-menu {
-    position: fixed; inset: 0; background: var(--basalt);
-    flex-direction: column; justify-content: center; gap: 32px;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 50;
-  }
-  .nav-menu.open { opacity: 1; pointer-events: auto; }
-  nav ul { flex-direction: column; align-items: center; gap: 16px; }
-  nav a { font-size: 22px; padding: 12px 24px; }
-  .nav-switchers { flex-direction: row; margin-top: 20px; }
+  .nav-desktop { display: none; }
+  .nav-mobile-overlay { display: flex; }
 }
 
 .section-inner { max-width: 1180px; margin: 0 auto; padding: 80px 28px; }
@@ -326,7 +345,7 @@ footer { background: var(--basalt); color: #9a8e6f; padding: 40px 28px 30px; tex
 .section-head h2 { position: relative; }
 .card-tag { letter-spacing: 0.1em; }
 
-.nav-wrap { backdrop-filter: blur(2px); }
+/* nav-wrap backdrop-filter removed — it created a stacking context that trapped the mobile overlay */
 nav a { transition: background 0.15s ease, color 0.15s ease; position: relative; }
 nav a.active::after {
   content: ""; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px; background: var(--ochre);
