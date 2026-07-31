@@ -111,6 +111,31 @@ async function main() {
     { name: "Kuriftu Resort", city: "Bahir Dar", address: "Lake Tana shoreline", latitude: 11.5900, longitude: 37.3800, distanceFromAirportKm: 12, tier: "lux", pricePerNight: 130, mealPlan: "breakfast",
       amenities: ["Lake views", "Spa", "Private beach"], rating: 4.4, order: 1,
       note: "Lakeside resort chain, popular for a relaxed stop after trekking." },
+    {
+      name: "Ethiopian Skylight Hotel",
+      city: "Addis Ababa",
+      address: "Bole International Airport Road, Bole, P.O. Box 1755",
+      latitude: 8.9897,
+      longitude: 38.7993,
+      distanceFromAirportKm: 0.5,
+      tier: "lux",
+      pricePerNight: 180,
+      mealPlan: "breakfast",
+      amenities: [
+        "Free WiFi",
+        "Indoor Pool",
+        "Outdoor Pool",
+        "Spa",
+        "Fitness Center",
+        "Free Airport Shuttle",
+        "7 Restaurants",
+        "Bar",
+        "Free Parking"
+      ],
+      rating: 4.7,
+      order: 2,
+      note: "Modern five-star hotel operated by Ethiopian Airlines, located adjacent to Addis Ababa Bole International Airport. Popular for transit stays, business travelers, and its complimentary airport shuttle."
+    },
   ];
   for (const h of hotels) {
     const existing = await prisma.hotel.findFirst({ where: { name: h.name } });
