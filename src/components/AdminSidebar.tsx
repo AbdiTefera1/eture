@@ -24,7 +24,7 @@ export default function AdminSidebar() {
 
   return (
     <aside className="admin-sidebar">
-      <div style={{ fontFamily: "Fraunces, serif", fontSize: 18, marginBottom: 24 }}>Selam Admin</div>
+      <div className="sidebar-title" style={{ fontFamily: "Fraunces, serif", fontSize: 18, marginBottom: 8 }}>Selam Admin</div>
       {LINKS.map((l) => (
         <Link key={l.href} href={l.href} className={pathname === l.href ? "active" : ""}>
           {l.label}
@@ -32,12 +32,12 @@ export default function AdminSidebar() {
       ))}
       <button
         onClick={handleLogout}
-        style={{ marginTop: 24, background: "none", border: "1px solid rgba(237,227,206,0.3)", color: "var(--parchment)", padding: "8px 10px", fontSize: 13, width: "100%", borderRadius: 3 }}
+        style={{ background: "none", border: "1px solid rgba(237,227,206,0.3)", color: "var(--parchment)", padding: "7px 12px", fontSize: 13, borderRadius: 3, marginTop: 4 }}
       >
         Log out
       </button>
-      <Link href="/" style={{ display: "block", marginTop: 12, fontSize: 12.5, color: "#8a7f68" }}>
-        ← View public site
+      <Link href="/" style={{ display: "inline-block", marginTop: 4, fontSize: 12.5, color: "#8a7f68", padding: "7px 4px" }}>
+        ← Site
       </Link>
     </aside>
   );

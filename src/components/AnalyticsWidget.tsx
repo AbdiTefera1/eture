@@ -43,7 +43,7 @@ export default function AnalyticsWidget() {
       </div>
 
       {/* KPI row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
+      <div className="analytics-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
         {[
           { label: "Today", value: stats.todayVisits },
           { label: "Last 7 days", value: stats.last7Visits },
