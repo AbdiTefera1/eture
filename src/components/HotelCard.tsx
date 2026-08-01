@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Locale, t } from "@/lib/i18n";
 import HotelPrice from "./HotelPrice";
 import HotelMapToggle from "./HotelMapToggle";
 import UpvoteButton from "./UpvoteButton";
@@ -27,13 +28,6 @@ type Hotel = {
   note: string;
   upvotes: number;
   images: HotelImage[];
-};
-
-type Translations = {
-  tier: (k: string) => string;
-  mealplan: (k: string) => string;
-  from: string;
-  night: string;
 };
 
 function PhotoLightbox({ images, startIndex, onClose }: { images: HotelImage[]; startIndex: number; onClose: () => void }) {
@@ -86,9 +80,14 @@ function PhotoLightbox({ images, startIndex, onClose }: { images: HotelImage[]; 
   );
 }
 
-export default function HotelCard({ hotel, tr }: { hotel: Hotel; tr: Translations }) {
+export default function HotelCard({ hotel, locale }: { hotel: Hotel; locale: Locale }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const cover = hotel.images[0];
+
+  const tierLabel = t(locale, `hotels.tier.${hotel.tier}`);
+  const mealLabel = t(locale, `hotels.mealplan.${hotel.mealPlan}`);
+  const fromLabel = t(locale, "common.from");
+  const nightLabel = t(locale, "common.night");
 
   return (
     <>
@@ -99,7 +98,7 @@ export default function HotelCard({ hotel, tr }: { hotel: Hotel; tr: Translation
           style={cover ? { backgroundImage: `url(${cover.url})`, cursor: "pointer" } : undefined}
           onClick={() => cover && setLightboxIdx(0)}
         >
-          <span className={`pill pill-${hotel.tier}`}>{tr.tier(hotel.tier)}</span>
+          <span className={`pill pill-${hotel.tier}`}>{tierLabel}</span>
           {hotel.images.length > 1 && (
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIdx(0); }}
@@ -134,11 +133,11 @@ export default function HotelCard({ hotel, tr }: { hotel: Hotel; tr: Translation
 
           <div className="hotel-price-row">
             <div>
-              <span className="hotel-price-label">{tr.from}</span>
+              <span className="hotel-price-label">{fromLabel}</span>
               <span className="hotel-price"><HotelPrice amountUSD={hotel.pricePerNight} /></span>
-              <span className="hotel-price-label"> / {tr.night}</span>
+              <span className="hotel-price-label"> / {nightLabel}</span>
             </div>
-            <span className="meal-plan-tag">{tr.mealplan(hotel.mealPlan)}</span>
+            <span className="meal-plan-tag">{mealLabel}</span>
           </div>
           {hotel.extraFoodInfo && <p className="hotel-food-note">{hotel.extraFoodInfo}</p>}
 
